@@ -10,38 +10,31 @@
 	<table border="1">
 		<tr>
 			<td>번호</td>
-			<td>${board.boardNo}</td>
+			<td>${map.boardNo}</td>
 		</tr>
 		<tr>
 			<td>제목</td>
-			<td>${board.title}</td>
+			<td>${map.title}</td>
 		</tr>
 		<tr>
 			<td>작성자</td>
-			<td>${board.writer}</td>
+			<td>${map.writer}</td>
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td>${board.content}</td>
+			<td>${map.content}</td>
 		</tr>
 		<tr>
 			<td>작성일</td>
-			<td>${board.createDate}</td>
+			<td>${map.createDate}</td>
 		</tr>
 		<tr>
 			<td>조회수</td>
-			<td>${board.read}</td>
+			<td>${map.read}</td>
 		</tr>
 	</table>
-	<button type="button" id="likeBtn">좋아요 ${board.nice}</button>
+	<a href="${pageContext.request.contextPath}/niceController?boardNo=${map.boardNo}">좋아요 ${map.nice}</a>
 </body>
 
-<script>
-
-$('#likeBtn').click(function() {
-	
-})
-
-</script>
 
 </html>

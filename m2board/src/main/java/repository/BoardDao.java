@@ -8,12 +8,19 @@ import vo.Board;
 public class BoardDao implements IBoardDao {
 
 	@Override
-	public List<Board> selectBoardListByPage(Connection conn, int rowPerPage, int beginRow) throws SQLException {
+	public List<Map<String, Object>> selectBoardListByPage(Connection conn, int rowPerPage, int beginRow) throws SQLException {
 		System.out.println("--------------------- BoardDao.selectBoardListByPage()");
 		
-		List<Board> list = new ArrayList<>();
+		List<Map<String, Object>> list = new ArrayList<>();
 		
-		String sql = "select board_no boardNo, title, writer, content, create_date createDate, `read`, nice from board order by create_date desc limit ?, ?";
+		String sql = "select b.board_no boardNo, title, writer, `read`, b.create_date createDate, ifnull(t.cnt, 0) as nice"
+				+ " from board b"
+				+ " left join"
+				+ "	(select board_no, count(*) cnt"
+				+ "	from nice"
+				+ "	group by board_no) t"
+				+ " on b.board_no = t.board_no"
+				+ " order by create_date desc limit ?, ?";		
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -28,17 +35,16 @@ public class BoardDao implements IBoardDao {
 			rs = stmt.executeQuery();
 			
 			while(rs.next()) {
-				Board b = new Board();
+				Map<String, Object> m = new HashMap<>();
 				
-				b.setBoardNo(rs.getInt("boardNo"));
-				b.setTitle(rs.getString("title"));
-				b.setWriter(rs.getString("writer"));
-				b.setContent(rs.getString("content"));
-				b.setCreateDate(rs.getString("createDate"));
-				b.setRead(rs.getInt("read"));
-				b.setNice(rs.getInt("nice"));
-				
-				list.add(b);
+				m.put("boardNo", rs.getInt("boardNo"));
+				m.put("title", rs.getString("title"));
+				m.put("writer", rs.getString("writer"));
+				m.put("read", rs.getInt("read"));
+				m.put("nice", rs.getInt("nice"));
+				m.put("createDate", rs.getString("createDate"));
+								
+				list.add(m);
 			}
 			
 			System.out.println("list: " + list);
@@ -77,9 +83,17 @@ public class BoardDao implements IBoardDao {
 	}
 
 	@Override
-	public Board selectBoardOne(Connection conn, int boardNo) throws SQLException {
-		Board board = null;
-		String sql = "select board_no boardNo, title, writer, content, create_date createDate, `read`, nice FROM board where board_no = ?";
+	public Map<String, Object> selectBoardOne(Connection conn, int boardNo) throws SQLException {
+		Map<String, Object> map = null;
+		String sql = "select b.board_no boardNo, title, writer, content, `read`, b.create_date createDate, ifnull(t.cnt, 0) as nice"
+				+ " from board b"
+				+ " left join"
+				+ "	(select board_no, count(*) cnt"
+				+ "	from nice"
+				+ "	group by board_no) t"
+				+ " on b.board_no = t.board_no"
+				+ " where b.board_no = ?";
+		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
@@ -90,15 +104,15 @@ public class BoardDao implements IBoardDao {
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) {
-				board = new Board();
+				map = new HashMap<>();
 				
-				board.setBoardNo(rs.getInt("boardNo"));
-				board.setTitle(rs.getString("title"));
-				board.setWriter(rs.getString("writer"));
-				board.setContent(rs.getString("content"));
-				board.setCreateDate(rs.getString("createDate"));
-				board.setRead(rs.getInt("read"));
-				board.setNice(rs.getInt("nice"));
+				map.put("boardNo", rs.getInt("boardNo"));
+				map.put("title", rs.getString("title"));
+				map.put("writer", rs.getString("writer"));
+				map.put("content", rs.getString("content"));
+				map.put("createDate", rs.getString("createDate"));
+				map.put("read", rs.getInt("read"));
+				map.put("nice", rs.getInt("nice"));
 			}
 			
 		} finally {
@@ -106,7 +120,7 @@ public class BoardDao implements IBoardDao {
 			if (stmt != null) { stmt.close(); }
 		}
 		
-		return board;
+		return map;
 	}
 
 	@Override
@@ -121,7 +135,6 @@ public class BoardDao implements IBoardDao {
 			stmt.executeUpdate();
 		} finally {
 			if (stmt != null) { stmt.close(); }
-		}
-				
+		}			
 	}
 }

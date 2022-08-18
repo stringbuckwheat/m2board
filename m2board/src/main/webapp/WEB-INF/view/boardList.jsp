@@ -25,18 +25,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="b" items="${list}">
+			<c:forEach var="m" items="${list}">
 				<tr>
-					<td>${b.boardNo}</td> <!-- 자동으로 getter 호출 -->
+					<td>${m.boardNo}</td> <!-- 자동으로 getter 호출 -->
 					<td>
-						<a href="${pageContext.request.contextPath}/boardOne?boardNo=${b.boardNo}">
-							${b.title}
+						<a href="${pageContext.request.contextPath}/boardOne?boardNo=${m.boardNo}">
+							${m.title}
 						</a>
 					</td>
-					<td>${b.writer}</td>
-					<td>${b.createDate}</td>
-					<td>${b.read}</td>
-					<td>${b.nice}</td>
+					<td>${m.writer}</td>
+					<td>${m.createDate}</td>
+					<td>${m.read}</td>
+					<td>${m.nice}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

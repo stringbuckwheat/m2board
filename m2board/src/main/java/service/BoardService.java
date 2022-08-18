@@ -25,7 +25,8 @@ public class BoardService implements IBoardService {
 			conn = DBUtil.getConnection();
 			this.boardDao = new BoardDao();
 			
-			List<Board> list = boardDao.selectBoardListByPage(conn, rowPerPage, beginRow);
+			List<Map<String, Object>> list = boardDao.selectBoardListByPage(conn, rowPerPage, beginRow);
+			System.out.println(list);
 			int totalRow = boardDao.selectBoardCnt(conn);
 			int lastPage = (int) Math.ceil((double)totalRow / rowPerPage);
 			
@@ -48,17 +49,17 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public Board getBoardOne(int boardNo) {
-		Board board = null;
+	public Map<String, Object> getBoardOne(int boardNo) {
+		Map<String, Object> map = null;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.boardDao = new BoardDao();
 			
-			board = boardDao.selectBoardOne(conn, boardNo);
+			map = boardDao.selectBoardOne(conn, boardNo);
 			
-			if(board != null) {
+			if(map != null) {
 				boardDao.updateRead(conn, boardNo);
 			}
 			
@@ -74,7 +75,7 @@ public class BoardService implements IBoardService {
 			}
 		}		
 		
-		return board;
+		return map;
 	}
 
 	

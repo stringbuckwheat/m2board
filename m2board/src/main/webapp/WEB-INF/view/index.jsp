@@ -9,5 +9,6 @@
 <body>
 	<h3>Index</h3>
 	<h3>${loginMember.name}(${loginMember.id})님, 반갑습니다</h3>
+	<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
 </body>
 </html>

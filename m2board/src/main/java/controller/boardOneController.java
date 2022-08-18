@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,9 +24,9 @@ public class boardOneController extends HttpServlet {
 		
 		// 2) 모델
 		this.boardService = new BoardService();
-		Board board = boardService.getBoardOne(boardNo);
-		System.out.println(board);
-		request.setAttribute("board", board);
+		Map<String, Object> map = boardService.getBoardOne(boardNo);
+		System.out.println(map);
+		request.setAttribute("map", map);
 		
 		// 3) 포워딩
 		request.getRequestDispatcher("/WEB-INF/view/boardOne.jsp").forward(request, response);

@@ -7,7 +7,6 @@ public class Board {
 	private String writer;
 	private String createDate;
 	private int read;
-	private int nice;
 	
 	public int getBoardNo() {
 		return boardNo;
@@ -57,19 +56,11 @@ public class Board {
 		this.read = read;
 	}
 	
-	public int getNice() {
-		return nice;
-	}
-
-	public void setNice(int nice) {
-		this.nice = nice;
-	}
-	
 	
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", title=" + title + ", writer=" + writer + ", createDate=" + createDate
-				+ ", read=" + read + ", nice=" + nice + "]";
+				+ ", read=" + read + "]";
 	}
 	
 }

@@ -8,6 +8,6 @@ public interface IBoardService {
 	// List<Board>, int lastPage를 리턴
 	Map<String, Object> getBoardListByPage(int rowPerPage, int currentPage);
 	
-	Board getBoardOne(int boardNo);
+	Map<String, Object> getBoardOne(int boardNo);
 
 }
