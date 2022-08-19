@@ -33,8 +33,25 @@
 			<td>${map.read}</td>
 		</tr>
 	</table>
-	<a href="${pageContext.request.contextPath}/niceController?boardNo=${map.boardNo}">좋아요 ${map.nice}</a>
+	<input type="hidden" name="boardNo" id="boardNo" value="${map.boardNo}">
+	<input type="button" id="niceBtn" value="좋아요 ${map.nice}">
 </body>
+
+<script>
+	$('#niceBtn').click(function(){
+		$.ajax({
+			url : '/m2board/niceController',
+			type : 'get',
+			data : {boardNo : $('#boardNo').val()},
+			success: function(json){
+				alert('좋아요 성공!');
+				$('#niceBtn').val('좋아요 ' + json);
+				console.log('좋아요 ' + json);
+			}
+		})
+	})
+
+</script>
 
 
 </html>

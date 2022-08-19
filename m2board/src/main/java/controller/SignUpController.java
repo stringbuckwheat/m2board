@@ -46,16 +46,20 @@ public class SignUpController extends HttpServlet {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		String name = request.getParameter("name");
+		String addr = request.getParameter("addr");
+		String detailAddr = request.getParameter("detailAddr");
 		
 		Member member = new Member();
 		member.setId(id);
 		member.setPw(pw);
 		member.setName(name);
+		member.setAddr(addr);
+		member.setDetailAddr(detailAddr);
 		
 		this.memberService = new MemberService();
-		int result = memberService.addMember(member);
+		boolean insertSuccess = memberService.addMember(member);
 		
-		if(result != 1) {
+		if(!insertSuccess) {
 			System.out.println("회원가입 실패");
 			response.sendRedirect(request.getContextPath() + "/signUpController");
 			return;

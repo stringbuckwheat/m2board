@@ -4,18 +4,21 @@ import java.sql.*;
 import vo.Member;
 
 public class MemberDao implements IMemberDao {
+	// TODO 아이디 유효성 검사
 
 	@Override
 	public int insertMember(Connection conn, Member paramMember) throws SQLException {
 		int row = 0;
 		PreparedStatement stmt = null;
-		String sql = "insert into member(id, password, name) values (?, password(?), ?)";
+		String sql = "insert into member(id, password, name, addr, detail_addr) values (?, password(?), ?, ?, ?)";
 		
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, paramMember.getId());
 			stmt.setString(2, paramMember.getPw());
 			stmt.setString(3, paramMember.getName());
+			stmt.setString(4, paramMember.getAddr());
+			stmt.setString(5, paramMember.getDetailAddr());
 			
 			row = stmt.executeUpdate();
 			

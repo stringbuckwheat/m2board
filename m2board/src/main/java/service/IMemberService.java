@@ -3,7 +3,6 @@ package service;
 import vo.Member;
 
 public interface IMemberService {
-	int addMember(Member paramMember);
-	
+	boolean addMember(Member paramMember);
 	Member getMemberLogin(Member paramMember);
 }

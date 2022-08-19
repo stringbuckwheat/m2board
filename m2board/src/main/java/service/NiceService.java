@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import common.DBUtil;
+import repository.BoardDao;
 import repository.INiceDao;
 import repository.MemberDao;
 import repository.NiceDao;
@@ -13,7 +14,7 @@ public class NiceService implements INiceService {
 	INiceDao niceDao;
 
 	@Override
-	public boolean getNice(Nice nice) {
+	public boolean addNice(Nice nice) {
 		boolean result = true;
 		Connection conn = null;
 		
@@ -51,4 +52,31 @@ public class NiceService implements INiceService {
 		return result;			
 		}
 
+	@Override
+	public int getNice(int boardNo) {
+		int nice = 0;
+		Connection conn = null;
+
+		try {
+			conn = DBUtil.getConnection();
+			this.niceDao = new NiceDao();
+			nice = niceDao.selectNice(conn, boardNo);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		
+		return nice;
+	}
+
+	
 }

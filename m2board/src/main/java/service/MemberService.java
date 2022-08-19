@@ -11,8 +11,8 @@ public class MemberService implements IMemberService {
 	IMemberDao memberDao;
 
 	@Override
-	public int addMember(Member paramMember) {
-		int result = 0;
+	public boolean addMember(Member paramMember) {
+		boolean result = true;
 		Connection conn = null;
 		
 		try {
@@ -20,9 +20,8 @@ public class MemberService implements IMemberService {
 			conn.setAutoCommit(false);
 			
 			this.memberDao = new MemberDao();
-			result = memberDao.insertMember(conn, paramMember);
 			
-			if(result != 1) {
+			if(memberDao.insertMember(conn, paramMember) != 1) {
 				// 회원 가입 실패
 				throw new Exception();
 			}
@@ -30,7 +29,7 @@ public class MemberService implements IMemberService {
 			conn.commit();
 			
 		} catch(Exception e) {
-			result = 0;
+			result = false;
 			e.printStackTrace();
 			
 			try {
