@@ -22,6 +22,7 @@ public class NiceController extends HttpServlet {
 	private INiceService niceService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 세션 유효성 검사
 		HttpSession session = request.getSession();
 		
 		if(session.getAttribute("loginMember") == null) {

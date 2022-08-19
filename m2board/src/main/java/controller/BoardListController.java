@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.BoardService;
 import service.IBoardService;
@@ -18,6 +19,14 @@ public class BoardListController extends HttpServlet {
       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 역할
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("loginMember") == null) {
+			// 로그인이 안 된 상태
+			request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
+			return;
+		}
+		
 		// 1) 요청 분석 - 분기?
 		final int ROW_PER_PAGE = 10;
 		

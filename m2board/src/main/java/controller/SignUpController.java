@@ -20,6 +20,7 @@ public class SignUpController extends HttpServlet {
 
 	// sign up form
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 세션 유효성 검사
 		HttpSession session = request.getSession();
 		
 		if(session.getAttribute("loginMember") != null) {
